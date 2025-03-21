@@ -1,0 +1,14 @@
+[project]
+name = "h4h-keffinn"
+version = "0.1.0"
+description = "Empowering accessibility through voice & vision"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "mediapipe>=0.10.21",
+    "numpy>=1.26.4",
+    "opencv-python>=4.11.0.86",
+    "pip>=25.0.1",
+    "pyside6>=6.8.2.1",
+    "scikit-learn>=1.6.1",
+]
