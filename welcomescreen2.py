@@ -7,6 +7,15 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(1440, 1024)
+        
+        Dialog.setFixedSize(1440, 1024)
+        
+        Dialog.setWindowFlags(
+            QtCore.Qt.WindowType.Window |
+            QtCore.Qt.WindowType.CustomizeWindowHint |
+            QtCore.Qt.WindowType.WindowTitleHint |
+            QtCore.Qt.WindowType.WindowCloseButtonHint
+        )
 
         font_id = QtGui.QFontDatabase.addApplicationFont("src/Nunito-Bold.otf")
         if font_id != -1:
@@ -82,7 +91,6 @@ class Ui_Dialog(object):
         """)
         self.pushButton.setObjectName("pushButton")
 
-        # Add cursor change on hover
         self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
 
         self.retranslateUi(Dialog)
@@ -138,3 +146,13 @@ class Ui_Dialog(object):
         <p align=\"center\"><span style=\" font-family:'{self.font_family}'; font-size:22pt; font-weight:600; color:#ffffff;\">pengalaman digital yang lebih mudah dan inklusif.</span></p>
         </body></html>"""))
         self.pushButton.setText(_translate("Dialog", "Mulai Kalibrasi"))
+
+
+# if __name__ == "__main__":
+#     app = QtWidgets.QApplication(sys.argv)
+#     Dialog = QtWidgets.QDialog()
+#     ui = Ui_Dialog()
+#     ui.setupUi(Dialog)
+#     Dialog.show()
+#     ui.startAnimations() 
+#     sys.exit(app.exec())
