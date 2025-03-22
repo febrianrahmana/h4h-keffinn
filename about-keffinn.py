@@ -76,9 +76,31 @@ from src import keffinn_rc
 
 if __name__ == "__main__":
     import sys
+    import os
+    from PyQt5.QtGui import QFontDatabase
+
     app = QtWidgets.QApplication(sys.argv)
+    
+    font_id = QFontDatabase.addApplicationFont(os.path.join("src", "Nunito-Bold.otf"))
+    if font_id != -1:
+        nunito_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+    else:
+        nunito_family = "Nunito"
+
     Dialog = QtWidgets.QDialog()
     ui = Ui_Dialog()
     ui.setupUi(Dialog)
+
+    title_font = ui.label_2.font()
+    title_font.setFamily(nunito_family)
+    title_font.setPointSize(72)
+    title_font.setBold(True)
+    ui.label_2.setFont(title_font)
+
+    desc_font = ui.label_4.font()
+    desc_font.setFamily(nunito_family)
+    desc_font.setPointSize(24)
+    ui.label_4.setFont(desc_font)
+
     Dialog.show()
     sys.exit(app.exec_())
