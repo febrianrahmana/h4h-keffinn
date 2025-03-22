@@ -4,6 +4,7 @@ import torch
 import traceback
 import os
 import sys
+import gc
 import threading
 import time
 import speech_recognition as sr
@@ -22,10 +23,11 @@ class VoiceController:
         print("CursorController initialized.")
 
         print("Setting audio parameters...")
-        self.chunk = 16000 
+        self.chunk = 16000
         self.format = pyaudio.paInt16
         self.channels = 1
         self.rate = 16000
+        self.silence_threshold = 0.01  # Adjust as needed
 
         print("Initializing PyAudio...")
         self.audio = pyaudio.PyAudio()
@@ -46,13 +48,22 @@ class VoiceController:
     def listen(self):
         try:
             print("Listening... (Press Ctrl+C to stop)")
+            audio_buffer = b""  # Initialize an empty byte buffer
+
             while True:
                 audio_chunk = self.stream.read(self.chunk, exception_on_overflow=False)
-                texts = self.model.transcribe(audio_chunk, language="en")
+                audio_buffer += audio_chunk
+                audio_np = np.frombuffer(audio_chunk, dtype=np.int16).astype(np.float32) / 32768.0
 
-                for text in texts:
-                    print(text)
-                    self.cursor_controller.handle_prompt(text)
+                if self.is_silent(audio_np, self.silence_threshold):
+                    if len(audio_buffer) > 0:
+                        print("Processing accumulated audio...")
+                        texts = self.model.transcribe(audio_buffer, language="id")
+                        for text in texts:
+                            print(text)
+                            self.cursor_controller.handle_prompt(text)
+                        audio_buffer = b""  # Reset buffer
+
         except Exception as e:
             traceback.print_exc()
         except KeyboardInterrupt:
@@ -61,18 +72,19 @@ class VoiceController:
             self.cleanup()
 
     def cleanup(self):
-        self.stream.stop_stream()
-        self.stream.close()
-        self.audio.terminate()
-        # del self.model
-        torch.cuda.empty_cache()
-        print("Stopped.")
-        # time.sleep(1)
-        active_threads = threading.enumerate()
-        if len(active_threads) > 1:
-            print(f"Active threads: {[t.name for t in active_threads]}")
-            self.force_exit()
-        sys.exit(0)
+        try:
+            self.stream.stop_stream()
+            self.stream.close()
+            self.audio.terminate()
+            del self.model
+            torch.cuda.empty_cache()
+            gc.collect()
+            print("Stopped.")
+        except Exception as e:
+            print(f"Cleanup error: {e}")
+            traceback.print_exc()
+        finally:
+            sys.exit(0)
 
 if __name__ == "__main__":
     voice_controller = VoiceController(model_type="whisper", input_mode="command")

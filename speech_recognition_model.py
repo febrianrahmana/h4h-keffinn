@@ -20,7 +20,7 @@ class SpeechRecognitionModel:
             filtered_segments = [
                 segment
                 for segment in segments
-                if segment.no_speech_prob < 0.4 and len(segment.text.strip()) >= 3
+                if segment.no_speech_prob < 0.4
             ]
             for segment in filtered_segments:
                 print(segment)
@@ -29,7 +29,6 @@ class SpeechRecognitionModel:
         elif self.model_type == "google":
             audio_data = sr.AudioData(audio_chunk, 16000, 2)
             try:
-                print("Message caught. Processing...")
                 text = self.recognizer.recognize_google(audio_data, language=language)
                 return [text] if text else []
             except sr.UnknownValueError:
