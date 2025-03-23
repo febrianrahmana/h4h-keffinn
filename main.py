@@ -101,6 +101,7 @@ class SplashScreenApp(QtWidgets.QWidget):
         self.about_screen.setFixedSize(1440, 1024)
         self.ui_about = AboutScreen()
         self.ui_about.setupUi(self.about_screen)
+        self.stacked_widget.addWidget(self.about_screen)
 
         self.stacked_widget.setCurrentIndex(0)
         self.show()
