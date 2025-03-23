@@ -9,6 +9,8 @@ from gaze_estimator import GazeEstimator
 from calibration import run_9_point_calibration, fine_tune_kalman_filter
 import tkinter as tk
 import pyautogui
+import os
+from speech_processor import SpeechProcessor
 
 # Reducing input lag
 pyautogui.PAUSE = 0
@@ -72,6 +74,17 @@ class VideoThread(QThread):
         self._run_flag = False
         self.wait()
 
+class SpeechThread(QThread):
+    def __init__(self, speech_processor: "SpeechProcessor"):
+        super().__init__()
+        self.speech_processor = speech_processor
+
+    def run(self):
+        self.speech_processor.listen()
+
+    def stop(self):
+        self.speech_processor.cleanup()
+        self.wait()
 
 class App(QWidget):
     def __init__(self, estimator: GazeEstimator, kalman: cv2.KalmanFilter):
@@ -92,12 +105,17 @@ class App(QWidget):
         # set the vbox layout as the widgets layout
         self.setLayout(vbox)
 
-        # create the video capture thread
-        self.thread = VideoThread(estimator, kalman)
+        # create the speech processing thread
+        self.speech_processor = SpeechProcessor(model_type="google", input_mode="command")
+        self.speech_thread = SpeechThread(self.speech_processor)
+        self.speech_thread.start()
+
+        # # create the video capture thread
+        self.video_thread = VideoThread(estimator, kalman)
         # connect its signal to the update_image slot
-        self.thread.change_pixmap_signal.connect(self.update_image)
+        self.video_thread.change_pixmap_signal.connect(self.update_image)
         # start the thread
-        self.thread.start()
+        self.video_thread.start()
 
     def closeEvent(self, event):
         self.thread.stop()

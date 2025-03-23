@@ -13,8 +13,8 @@ class CursorController:
         :param input_mode: Mode of input, e.g., 'command' or 'text'.
         """
         self.input_mode = input_mode
-        self.hold_mode = False  # Add hold mode attribute
-        self.keyboard_process = None  # Store the keyboard process
+        self.hold_mode = False
+        self.keyboard_process = None
         
     def handle_prompt(self, prompt):
         """Handles cursor actions based on the given prompt."""
@@ -22,13 +22,13 @@ class CursorController:
 
         prompt_parsed = prompt.lower().strip()
 
-        if prompt_parsed.startswith("escape"):
-            text_to_write = prompt[len("escape"):].strip()
+        if prompt_parsed.startswith("write") or prompt_parsed.startswith("tulis"):
+            text_to_write = prompt[5:].strip()
             if text_to_write:
                 print(text_to_write)
                 pyautogui.write(text_to_write)
                 return
-
+            
         if any(keyword in prompt_parsed for keyword in ("command", "perintah")):
             self.input_mode = "command"
             return
@@ -44,7 +44,7 @@ class CursorController:
                 self.input_mode = "text"
             return
         
-        if "hold" in prompt_parsed: #toggle hold mode
+        if "hold" in prompt_parsed:
             self.hold_mode = not self.hold_mode
             if self.hold_mode:
                 print("Hold mode activated")
@@ -57,7 +57,7 @@ class CursorController:
         if any(keyword in prompt_parsed for keyword in ("space", "spasi")):
             pyautogui.press("space")
             return
-        if any(keyword in prompt_parsed for keyword in ("cap", "kap")):
+        if any(keyword in prompt_parsed for keyword in ("capslock", "kapital")):
             pyautogui.press("capslock")
             return
         if any(keyword in prompt_parsed for keyword in ("back", "kembali")):
@@ -71,7 +71,6 @@ class CursorController:
             return
         if any(keyword in prompt_parsed for keyword in ("shift", "geser")):
             pyautogui.press("shift")
-            return
         
         if self.input_mode == "text":
             pyautogui.write(prompt)
@@ -79,13 +78,13 @@ class CursorController:
         
         prompt = prompt.lower().strip()
 
-        if any(keyword in prompt for keyword in ("kiri kiri", "left left")):
+        if any(keyword in prompt for keyword in ("klik klik", "click click")):
             pyautogui.click()
             pyautogui.click()
-        elif any(keyword in prompt for keyword in ("kiri", "left")):
-            pyautogui.click()  # Left click
+        elif any(keyword in prompt for keyword in ("klik", "click")):
+            pyautogui.click()
         elif any(keyword in prompt for keyword in ("kanan", "right")):
-            pyautogui.rightClick()  # Right click
+            pyautogui.rightClick()
         elif "keyboard" in prompt:
             if self.is_keyboard_running():
                 self.close_onscreen_keyboard()
@@ -101,8 +100,7 @@ class CursorController:
             for proc in psutil.process_iter(['pid', 'name']):
                 if proc.info['name'] == 'osk.exe':
                     return True
-        elif os_name == "Darwin":  # macOS
-            # Check for Keyboard Viewer process
+        elif os_name == "Darwin":
             for proc in psutil.process_iter(['pid', 'name']):
                 if "Keyboard Viewer" in proc.info['name']:
                     return True
@@ -118,15 +116,14 @@ class CursorController:
         os_name = platform.system()
         try:
             if os_name == "Windows":
-                subprocess.Popen("osk.exe", shell=True)  # Windows on-screen keyboard
+                subprocess.Popen("osk.exe", shell=True)
             elif os_name == "Darwin":  # macOS
                 subprocess.Popen(["open", "/System/Applications/Utilities/Keyboard Viewer.app"])
             elif os_name == "Linux":
-                subprocess.Popen(["onboard"]) # most common linux on screen keyboard
+                subprocess.Popen(["onboard"])
             else:
                 print(f"On-screen keyboard not supported on {os_name}.")
                 
-            # Click away from keyboard to allow other clicks to work
             screen_width, screen_height = pyautogui.size()
             pyautogui.click(screen_width // 4, screen_height // 4)
             
@@ -141,7 +138,7 @@ class CursorController:
         try:
             if os_name == "Windows":
                 os.system("taskkill /f /im osk.exe")
-            elif os_name == "Darwin":  # macOS
+            elif os_name == "Darwin":
                 os.system("pkill -f 'Keyboard Viewer'")
             elif os_name == "Linux":
                 os.system("pkill onboard")
