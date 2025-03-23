@@ -63,7 +63,6 @@ class VideoThread(QThread):
                 
                 if x_pred is not None and y_pred is not None:
                     pyautogui.moveTo(x_pred, y_pred)
-                    print(x_pred, y_pred)
                     
                 self.change_pixmap_signal.emit(cv_img)
         # shut down capture system
