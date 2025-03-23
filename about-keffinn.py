@@ -77,7 +77,7 @@ from src import keffinn_rc
 if __name__ == "__main__":
     import sys
     import os
-    from PyQt5.QtGui import QFontDatabase
+    from PySide6.QtGui import QFontDatabase
 
     app = QtWidgets.QApplication(sys.argv)
     
