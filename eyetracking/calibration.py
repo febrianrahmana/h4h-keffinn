@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import tkinter as tk
 import time
-from gaze_estimator import GazeEstimator
+from .gaze_estimator import GazeEstimator
 
 
 
@@ -48,7 +48,7 @@ def wait_for_face_and_countdown(cap: cv2.VideoCapture, gaze_estimator: GazeEstim
         else:
             countdown = False
             fd_start = None
-            txt = "Face not detected"
+            txt = "Muka tidak terdeteksi!"
             fs = 2
             thick = 3
             size, _ = cv2.getTextSize(txt, cv2.FONT_HERSHEY_SIMPLEX, fs, thick)
@@ -198,7 +198,7 @@ def fine_tune_kalman_filter(gaze_estimator, kalman: cv2.KalmanFilter, camera_ind
         font_scale = 1.5
         color = (255, 255, 255)
         thickness = 2
-        text = "Look at the points until they disappear"
+        text = "Lihat titik-titiknya sampai menghilang"
         text_size, _ = cv2.getTextSize(text, font, font_scale, thickness)
         text_x = (screen_width - text_size[0]) // 2
         text_y = screen_height - 50

@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="img">
+    <file>background.png</file>
+    <file>mic.png</file>
+    <file>logo_hitam.png</file>
+    <file>logo_putih.png</file>
+  </qresource>
+</RCC>
