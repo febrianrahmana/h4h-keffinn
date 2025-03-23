@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>check.png</file>
+    <file>minus.png</file>
+    <file>add.png</file>
+  </qresource>
+</RCC>
