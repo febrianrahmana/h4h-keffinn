@@ -50,73 +50,12 @@ def is_dark_mode() -> bool:
         # Unsupported platform
         return False
 
-class TrayMenuDialog(QtWidgets.QDialog):
-    def __init__(self, main_window, parent=None):
-        super().__init__(parent)
-        self.main_window = main_window
-        self.ui = CardDialog()
-        self.ui.setupUi(self)
-        self.setup_behavior()
-        
-        # Make it frameless and transparent background
-        self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.Popup)
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-
-    def setup_behavior(self):
-        # Connect buttons to actions
-        self.ui.pushButton.clicked.connect(self.main_window.bring_to_top)
-        self.ui.pushButton_2.clicked.connect(self.toggle_microphone)
-        self.ui.pushButton_3.clicked.connect(self.toggle_eye_tracking)
-        self.ui.pushButton_4.clicked.connect(self.show_settings)
-
-        # Make buttons checkable
-        self.ui.pushButton_2.setCheckable(True)
-        self.ui.pushButton_3.setCheckable(True)
-
-    def toggle_microphone(self):
-        state = self.ui.pushButton_2.isChecked()
-        self.ui.pushButton_2.setStyleSheet(f"""
-            QPushButton {{
-                background-color: {'#A3D8FF' if state else 'white'};
-                border-radius: 10px;
-                border: 2px solid {'#4A8CB0' if state else '#9266CC'};
-                font-family: 'Nunito', sans-serif;
-                font-size: 14px;
-                color: #333333;
-            }}
-        """)
-        print(f"Microphone {'enabled' if state else 'disabled'}")
-
-    def toggle_eye_tracking(self):
-        state = self.ui.pushButton_3.isChecked()
-        self.ui.pushButton_3.setStyleSheet(f"""
-            QPushButton {{
-                background-color: {'#A3D8FF' if state else 'white'};
-                border-radius: 10px;
-                border: 2px solid {'#4A8CB0' if state else '#9266CC'};
-                font-family: 'Nunito', sans-serif;
-                font-size: 14px;
-                color: #333333;
-            }}
-        """)
-        print(f"Eye tracking {'enabled' if state else 'disabled'}")
-
-    def show_settings(self):
-        print("Showing settings...")
-        self.close()
-
-    def showEvent(self, event):
-        # Position near system tray icon
-        pos = QtGui.QCursor.pos()
-        self.move(pos.x() - self.width()//2, pos.y() - self.height()//2)
-        super().showEvent(event)
-
 class SplashScreenApp(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
-        self.gaze_estimator = EyetrackingThread()
-        self.speech_recognition = SpeechThread()
+        self.gaze_estimator: EyetrackingThread = EyetrackingThread()
+        self.speech_recognition: SpeechThread = SpeechThread()
         self.tray_menu = None
 
     def initUI(self):
@@ -183,13 +122,91 @@ class SplashScreenApp(QtWidgets.QWidget):
 
     def start_calibration(self):
         self.hide()
-        # self.gaze_estimator.calibrate()
+        self.gaze_estimator.calibrate()
         BerhasilDialog.show_dialog(self)
+        self.gaze_estimator.start()
+        self.speech_recognition.start()
         
     def bring_to_top(self):
         self.show()
         self.raise_()
         self.activateWindow()
+        
+class TrayMenuDialog(QtWidgets.QDialog):
+    def __init__(self, main_window: SplashScreenApp, parent=None):
+        super().__init__(parent)
+        self.main_window = main_window
+        self.ui = CardDialog()
+        self.ui.setupUi(self)
+        self.setup_behavior()
+        
+        # Make it frameless and transparent background
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.Popup)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+
+    def setup_behavior(self):
+        # Connect buttons to actions
+        self.ui.pushButton.clicked.connect(self.main_window.show_about_screen)
+        self.ui.pushButton_2.clicked.connect(self.toggle_microphone)
+        self.ui.pushButton_3.clicked.connect(self.toggle_eye_tracking)
+        self.ui.pushButton_4.clicked.connect(self.show_settings)
+
+        # Make buttons checkable
+        self.ui.pushButton_2.setCheckable(True)
+        self.ui.pushButton_3.setCheckable(True)
+        
+        self.ui.pushButton_2.setChecked(self.main_window.speech_recognition._run_flag)
+        self.ui.pushButton_3.setChecked(self.main_window.gaze_estimator._run_flag)
+
+    def toggle_microphone(self):
+        state = self.ui.pushButton_2.isChecked()
+        self.ui.pushButton_2.setStyleSheet(f"""
+            QPushButton {{
+                background-color: {'#A3D8FF' if state else 'white'};
+                border-radius: 10px;
+                border: 2px solid {'#4A8CB0' if state else '#9266CC'};
+                font-family: 'Nunito', sans-serif;
+                font-size: 14px;
+                color: #333333;
+            }}
+        """)
+        self.close()
+        if state:
+            self.main_window.speech_recognition.stop()
+        else:
+            self.main_window.speech_recognition.start()
+            
+    def showEvent(self, event):
+        self.ui.pushButton_2.setChecked(self.main_window.speech_recognition.isRunning())
+        super().showEvent(event)
+
+    def toggle_eye_tracking(self):
+        state = self.ui.pushButton_3.isChecked()
+        self.ui.pushButton_3.setStyleSheet(f"""
+            QPushButton {{
+                background-color: {'#A3D8FF' if state else 'white'};
+                border-radius: 10px;
+                border: 2px solid {'#4A8CB0' if state else '#9266CC'};
+                font-family: 'Nunito', sans-serif;
+                font-size: 14px;
+                color: #333333;
+            }}
+        """)
+        self.close()
+        if state:
+            self.main_window.gaze_estimator.stop()
+        else:
+            self.main_window.gaze_estimator.start()
+
+    def show_settings(self):
+        print("Showing settings...")
+        self.close()
+
+    def showEvent(self, event):
+        # Position near system tray icon
+        pos = QtGui.QCursor.pos()
+        self.move(pos.x() - self.width()//2, pos.y() - self.height()//2)
+        super().showEvent(event)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

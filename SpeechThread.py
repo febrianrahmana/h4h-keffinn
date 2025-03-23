@@ -5,7 +5,7 @@ class SpeechThread(QThread):
     def __init__(self):
         super().__init__()
         self._run_flag = False
-        self.speech_processor = SpeechProcessor()
+        self.speech_processor = SpeechProcessor(model_type="google", input_mode="command")
         
     def toggle(self):
         if not self._run_flag:

@@ -8,6 +8,12 @@ from PySide6.QtCore import Signal, Slot, Qt, QThread
 from eyetracking.gaze_estimator import GazeEstimator
 from eyetracking.calibration import run_9_point_calibration, fine_tune_kalman_filter
 
+# Reducing input lag
+pyautogui.PAUSE = 0
+
+# Disabling failsafe when eyetracking starts
+pyautogui.FAILSAFE = False
+
 class EyetrackingThread(QThread):
     change_pixmap_signal = Signal(np.ndarray)
 
