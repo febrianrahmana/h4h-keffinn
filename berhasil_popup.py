@@ -1,5 +1,23 @@
 from PySide6 import QtCore, QtGui, QtWidgets
 import sys
+from PySide6.QtGui import QFont
+
+class BerhasilDialog(QtWidgets.QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.ui = Ui_Dialog()
+        self.ui.setupUi(self)
+        
+        # Connect the button to close the dialog
+        self.ui.pushButton.clicked.connect(self.accept)
+        
+        # Set window flags to make it stay on top
+        self.setWindowFlags(self.windowFlags() | QtCore.Qt.WindowStaysOnTopHint)
+        
+    @staticmethod
+    def show_dialog(parent=None):
+        dialog = BerhasilDialog(parent)
+        dialog.exec()
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -14,7 +32,7 @@ class Ui_Dialog(object):
         font.setFamily("Nunito")
         font.setPointSize(42) 
         font.setBold(True)
-        font.setWeight(75)
+        font.setWeight(QFont.Thin)
         self.label.setFont(font)
         self.label.setAlignment(QtCore.Qt.AlignCenter) 
         self.label.setObjectName("label")
@@ -65,9 +83,8 @@ class Ui_Dialog(object):
 import icons_rc
 
 if __name__ == "__main__":
+    # Demo code when run directly
     app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
+    dialog = BerhasilDialog()
+    dialog.show()
     sys.exit(app.exec())
