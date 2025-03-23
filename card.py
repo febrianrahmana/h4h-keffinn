@@ -15,9 +15,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QDialog, QLabel, QPushButton,
-    QSizePolicy, QWidget)
-import check_rc
+from PySide6.QtWidgets import (QApplication, QDialog, QPushButton, QSizePolicy,
+    QWidget)
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -27,13 +26,10 @@ class Ui_Dialog(object):
         self.pushButton = QPushButton(Dialog)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setGeometry(QRect(40, 30, 376, 68))
-        font = QFont()
-        font.setFamilies([u"Nunito,sans-serif"])
-        font.setKerning(True)
-        self.pushButton.setFont(font)
         self.pushButton.setStyleSheet(u"QPushButton {\n"
 "    background-color: white;\n"
 "    border-radius: 10px;\n"
+"    border: 2px solid #9266CC;\n"
 "    font-family: 'Nunito', sans-serif;\n"
 "    font-size: 14px;\n"
 "    color: #333333;\n"
@@ -58,6 +54,7 @@ class Ui_Dialog(object):
         self.pushButton_2.setStyleSheet(u"QPushButton {\n"
 "    background-color: white;\n"
 "    border-radius: 10px;\n"
+"    border: 2px solid #9266CC;\n"
 "    font-family: 'Nunito', sans-serif;\n"
 "    font-size: 14px;\n"
 "    color: #333333;\n"
@@ -82,6 +79,7 @@ class Ui_Dialog(object):
         self.pushButton_3.setStyleSheet(u"QPushButton {\n"
 "    background-color: white;\n"
 "    border-radius: 10px;\n"
+"    border: 2px solid #9266CC;\n"
 "    font-family: 'Nunito', sans-serif;\n"
 "    font-size: 14px;\n"
 "    color: #333333;\n"
@@ -106,6 +104,7 @@ class Ui_Dialog(object):
         self.pushButton_4.setStyleSheet(u"QPushButton {\n"
 "    background-color: white;\n"
 "    border-radius: 10px;\n"
+"    border: 2px solid #9266CC;\n"
 "    font-family: 'Nunito', sans-serif;\n"
 "    font-size: 14px;\n"
 "    color: #333333;\n"
@@ -124,21 +123,6 @@ class Ui_Dialog(object):
 "    border: 2px solid #4A8CB0;  /* Optional: border color when checked */\n"
 "}\n"
 "")
-        self.label = QLabel(Dialog)
-        self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(360, 120, 41, 31))
-        self.label.setPixmap(QPixmap(u":/newPrefix/check.png"))
-        self.label.setScaledContents(True)
-        self.label_2 = QLabel(Dialog)
-        self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(360, 190, 41, 31))
-        self.label_2.setPixmap(QPixmap(u":/newPrefix/check.png"))
-        self.label_2.setScaledContents(True)
-        self.label_3 = QLabel(Dialog)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setGeometry(QRect(360, 260, 41, 31))
-        self.label_3.setPixmap(QPixmap(u":/newPrefix/add.png"))
-        self.label_3.setScaledContents(True)
 
         self.retranslateUi(Dialog)
 
@@ -151,8 +135,5 @@ class Ui_Dialog(object):
         self.pushButton_2.setText(QCoreApplication.translate("Dialog", u"Microphone", None))
         self.pushButton_3.setText(QCoreApplication.translate("Dialog", u"EYE Tracking", None))
         self.pushButton_4.setText(QCoreApplication.translate("Dialog", u"Settings", None))
-        self.label.setText("")
-        self.label_2.setText("")
-        self.label_3.setText("")
     # retranslateUi
 
