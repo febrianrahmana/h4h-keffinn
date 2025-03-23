@@ -1,7 +1,7 @@
 import sys
 import os
-from PyQt5.QtWidgets import QApplication, QDialog
-from PyQt5.QtGui import QFontDatabase
+from PySide6.QtWidgets import QApplication, QDialog
+from PySide6.QtGui import QFontDatabase
 from gagal_popup import Ui_Dialog  # from generated .py
 import icons_rc  # already compiled earlier
 

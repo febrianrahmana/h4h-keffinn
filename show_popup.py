@@ -1,7 +1,7 @@
 import sys
 import os
-from PyQt5.QtWidgets import QApplication, QDialog
-from PyQt5.QtGui import QFontDatabase
+from PySide6.QtWidgets import QApplication, QDialog
+from PySide6.QtGui import QFontDatabase
 from berhasil_popup import Ui_Dialog  # This is the compiled .ui file
 
 class SuccessPopup(QDialog):
