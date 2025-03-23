@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>454</width>
+    <height>355</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>30</y>
+     <width>376</width>
+     <height>68</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid #9266CC;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    color: #333333;
+}
+
+QPushButton:hover {
+    background-color: #f0f0f0;
+}
+
+QPushButton:pressed {
+    background-color: #e0e0e0;
+}
+
+QPushButton[checked=&quot;true&quot;] {
+    background-color: #A3D8FF; /* Change color when checked */
+    border: 2px solid #4A8CB0;  /* Optional: border color when checked */
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Tentang EYE HEAR U</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>100</y>
+     <width>376</width>
+     <height>68</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid #9266CC;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    color: #333333;
+}
+
+QPushButton:hover {
+    background-color: #f0f0f0;
+}
+
+QPushButton:pressed {
+    background-color: #e0e0e0;
+}
+
+QPushButton[checked=&quot;true&quot;] {
+    background-color: #A3D8FF; /* Change color when checked */
+    border: 2px solid #4A8CB0;  /* Optional: border color when checked */
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Microphone</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>170</y>
+     <width>376</width>
+     <height>68</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid #9266CC;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    color: #333333;
+}
+
+QPushButton:hover {
+    background-color: #f0f0f0;
+}
+
+QPushButton:pressed {
+    background-color: #e0e0e0;
+}
+
+QPushButton[checked=&quot;true&quot;] {
+    background-color: #A3D8FF; /* Change color when checked */
+    border: 2px solid #4A8CB0;  /* Optional: border color when checked */
+}
+</string>
+   </property>
+   <property name="text">
+    <string>EYE Tracking</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_4">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>240</y>
+     <width>376</width>
+     <height>68</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid #9266CC;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    color: #333333;
+}
+
+QPushButton:hover {
+    background-color: #f0f0f0;
+}
+
+QPushButton:pressed {
+    background-color: #e0e0e0;
+}
+
+QPushButton[checked=&quot;true&quot;] {
+    background-color: #A3D8FF; /* Change color when checked */
+    border: 2px solid #4A8CB0;  /* Optional: border color when checked */
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Settings</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
