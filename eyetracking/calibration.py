@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import tkinter as tk
 import time
-from gaze_estimator import GazeEstimator
+from .gaze_estimator import GazeEstimator
 
 
 

@@ -11,8 +11,8 @@ import atexit
 import signal
 import speech_recognition as sr
 from faster_whisper import WhisperModel
-from cursor_controller import CursorController
-from speech_recognition_model import SpeechRecognitionModel
+from .cursor_controller import CursorController
+from .speech_recognition_model import SpeechRecognitionModel
 
 class SpeechProcessor:
     def __init__(self, model_type="whisper", input_mode="command"):

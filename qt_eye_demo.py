@@ -5,12 +5,12 @@ import sys
 import cv2
 from PySide6.QtCore import Signal, Slot, Qt, QThread
 import numpy as np
-from gaze_estimator import GazeEstimator
-from calibration import run_9_point_calibration, fine_tune_kalman_filter
+from eyetracking.gaze_estimator import GazeEstimator
+from eyetracking.calibration import run_9_point_calibration, fine_tune_kalman_filter
 import tkinter as tk
 import pyautogui
 import os
-from speech_processor import SpeechProcessor
+from voice_command.speech_processor import SpeechProcessor
 
 # Reducing input lag
 pyautogui.PAUSE = 0
